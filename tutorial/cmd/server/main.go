@@ -42,6 +42,11 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			Args:    graphqlfunc.QueryArgs,
 			Resolve: graphqlfunc.GetTransactionResolver,
 		},
+		"login": &graphql.Field{
+			Type:    graphql.Boolean,
+			Args:    graphqlfunc.UserArgs,
+			Resolve: graphqlfunc.UserLoginResolver,
+		},
 	},
 })
 
@@ -54,9 +59,14 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			Resolve: graphqlfunc.InsertAccountResolver,
 		},
 		"insertTransaction": &graphql.Field{
-			Type:    graphql.NewList(graphqlfunc.AccountGraphQLType),
+			Type:    graphql.NewList(graphqlfunc.DepositTransactionQLType),
 			Args:    graphqlfunc.InsertArgs,
 			Resolve: graphqlfunc.InsertTransactionResolver,
+		},
+		"createUser": &graphql.Field{
+			Type:    graphql.String,
+			Args:    graphqlfunc.UserArgs,
+			Resolve: graphqlfunc.CreateUserResolver,
 		},
 	},
 })

@@ -43,3 +43,12 @@ var DepositTransactionQLType = graphql.NewObject(graphql.ObjectConfig{
 		"account_id":  &graphql.Field{Type: graphql.Int},
 	},
 })
+
+var UserQLType = graphql.NewObject(graphql.ObjectConfig{
+	Name: "UserLogin",
+	Fields: graphql.Fields{
+		"user_name":  &graphql.Field{Type: graphql.String},
+		"created_at": &graphql.Field{Type: graphql.DateTime},
+		"created_by": &graphql.Field{Type: graphql.String},
+	},
+})

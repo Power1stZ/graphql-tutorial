@@ -27,4 +27,13 @@ CREATE TABLE deposit_transaction (
     created_at DATETIME,
     finished_at DATETIME,
     account_id INTEGER
-)
+);
+
+CREATE TABLE user (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_name TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    salt TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_by TEXT NOT NULL
+);

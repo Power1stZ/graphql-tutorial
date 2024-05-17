@@ -3,6 +3,7 @@ package graphqlfunc
 import (
 	"fmt"
 	"graphql/tutorial/internal/deposit"
+	"graphql/tutorial/internal/jwt"
 	"graphql/tutorial/pkg/db"
 	"log"
 
@@ -54,7 +55,42 @@ func InsertTransactionResolver(p graphql.ResolveParams) (interface{}, error) {
 	store := db.NewStore()
 	transaction := deposit.NewTransactionHandler(store)
 	if err := transaction.InsertTransaction(name, amount); err != nil {
+		fmt.Println(transaction)
+
 		fmt.Println(err.Error())
 	}
 	return transaction.GetTransactionDetail(name)
+}
+
+func CreateUserResolver(p graphql.ResolveParams) (interface{}, error) {
+	store := db.NewStore()
+	user := jwt.NewUserHandler(store)
+	name := ""
+	if v, ok := p.Args["user_name"].(string); ok {
+		name = v
+	}
+	pass := ""
+	if v, ok := p.Args["password"].(string); ok {
+		pass = v
+	}
+
+	if error := user.CreateUser(name, pass); error != nil {
+		return "fail", error
+	}
+	return "success", nil
+}
+
+func UserLoginResolver(p graphql.ResolveParams) (interface{}, error) {
+	store := db.NewStore()
+	user := jwt.NewUserHandler(store)
+	name := ""
+	if v, ok := p.Args["user_name"].(string); ok {
+		name = v
+	}
+	pass := ""
+	if v, ok := p.Args["password"].(string); ok {
+		pass = v
+	}
+	ok := user.UserLogin(name, pass)
+	return ok, nil
 }

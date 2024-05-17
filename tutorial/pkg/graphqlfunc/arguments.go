@@ -16,3 +16,12 @@ var InsertArgs = graphql.FieldConfigArgument{
 		Type: graphql.Int,
 	},
 }
+
+var UserArgs = graphql.FieldConfigArgument{
+	"user_name": &graphql.ArgumentConfig{
+		Type: graphql.String,
+	},
+	"password": &graphql.ArgumentConfig{
+		Type: graphql.String,
+	},
+}
