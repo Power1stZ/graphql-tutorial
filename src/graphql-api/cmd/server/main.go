@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
-	"time"
 	"context"
+	"fmt"
+	"log"
+	"net/http"
 	"os"
 	"os/signal"
-	"log"
+	"time"
 
 	"graphql-api/config"
 	"graphql-api/internal/auth"
@@ -23,8 +23,8 @@ import (
 )
 
 func main() {
-	
-	shutdown, err :=  monitoring.InitTracer(viper.GetString("TRACE_EXPORTER_URL"))
+
+	shutdown, err := monitoring.InitTracer(viper.GetString("TRACE_EXPORTER_URL"))
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()
 
@@ -55,7 +55,7 @@ func main() {
 
 	// Serve GraphQL API at /graphql endpoint
 	http.Handle("/graphql", handlers(graphqlHandler))
-	
+
 	// http.Handle("/graphql", graphqlHandler)
 	http.HandleFunc("/login", auth.LoginHandler)
 	// Start the HTTP server
@@ -74,7 +74,7 @@ func handlers(graphqlHandler *handler.Handler) http.Handler {
 	 */
 	rateLimitReqSec := viper.GetInt("RATE_LIMIT_REQ_SEC")
 	rateLimitBurst := viper.GetInt("RATE_LIMIT_BURST")
-	limit := rate.Every( (time.Duration(rateLimitReqSec) * time.Second))
+	limit := rate.Every((time.Duration(rateLimitReqSec) * time.Second))
 	execTimeOut := viper.GetInt("EXEC_TIME_OUT")
 	auditLog := middleware.AuditLogMiddleware(graphqlHandler)
 	rateLimit := middleware.RateLimitMiddleware(limit, rateLimitBurst)(auditLog)

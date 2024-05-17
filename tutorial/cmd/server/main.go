@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"graphql/tutorial/internal/contact"
 	"graphql/tutorial/pkg/graphqlfunc"
 	"net/http"
 
@@ -21,18 +20,18 @@ var schema, _ = graphql.NewSchema(graphql.SchemaConfig{
 var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 	Name: "RootQuery",
 	Fields: graphql.Fields{
-		"hello": &graphql.Field{
-			Type: graphql.String,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return "Hello, GraphQL!", nil
-			},
-		},
-		"contact": &graphql.Field{
-			Type: graphql.NewList(graphqlfunc.ContactGraphQLType),
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return contact.GetContactData()
-			},
-		},
+		// "hello": &graphql.Field{
+		// 	Type: graphql.String,
+		// 	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+		// 		return "Hello, GraphQL!", nil
+		// 	},
+		// },
+		// "contact": &graphql.Field{
+		// 	Type: graphql.NewList(graphqlfunc.ContactGraphQLType),
+		// 	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+		// 		return contact.GetContactData()
+		// 	},
+		// },
 		"account": &graphql.Field{
 			Type:    graphql.NewList(graphqlfunc.AccountGraphQLType),
 			Args:    graphqlfunc.QueryArgs,
